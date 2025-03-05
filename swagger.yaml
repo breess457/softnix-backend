@@ -1,0 +1,480 @@
+
+openapi: 3.0.0
+info:
+  title: Soft API
+  description: Optional multiline or single-line description in HTML.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3001
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+tags:
+  - name: data
+    description: Everything about data
+paths:
+  /api/login:
+    post:
+      tags:
+        - login
+      summary: get all api login Authorization.
+      description: login user Authorization.
+      operationId: getlogin
+      requestBody:
+        description: api is login user Authorization.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "user@example.com"
+                password:
+                  type: string
+                  example: "pass123123"
+      responses:
+        201:
+          description: Login สำเร็จ
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR..."
+        400:
+          description: request ไม่ครบ
+        404:
+         description: Unauthorized (Email หรือ Password ไม่ถูกต้อง)
+        500:
+          description: Server Error
+  /api/register:
+    post:
+      tags:
+        - register
+      summary: get all api sigup Authorization.
+      description: api is register Authorization.
+      operationId: getregister
+      requestBody:
+        description: api is login user Authorization.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fullname:
+                  type: string
+                  example: "user fullname"
+                username:
+                  type: string
+                  example: "user@example.com"
+                password:
+                  type: string
+                  example: "pass123123"
+      responses:
+        201:
+          description: rgister สำเร็จ
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR..."
+        400:
+          description: request ไม่ครบ
+        409:
+         description: username นี้ถูกใช้ไปแล้วโปรดใช้ username อื่น
+        500:
+         description: Server Error
+  /api/profile:
+    get:
+      tags:
+        - profile
+      summary: get all data Seed.
+      description: api first is get all data Seed.
+      operationId: getSeed
+      security:
+        - apiKeyAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: "Token (Authorization: <token>)"
+      responses:
+        201:
+          description: resutl status successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 1
+                  fullname:
+                    type: string
+                    example: fullname user
+                  username:
+                    type: string
+                    example: username@gmail.com
+                  newDate:
+                    type: string
+                    example: yyyy-mm-dd hh:mm:ss
+        404:
+         description: login failed is not this username
+        500:
+         description: Server Error
+  /api/mydata:
+    get:
+      tage:
+        - mydata
+      summary: get all my data.
+      description: api for get all my post data.
+      operationId: getMyData
+      security:
+        - apiKeyAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: "Token (Authorization: <token>)"
+      responses:
+        201:    
+          description: List of Seed
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 1
+                  Seed_RepDate:
+                    type: string
+                    example: "Seed 1"
+                  Seed_Year:
+                    type: number
+                    example: 1
+                  Seeds_YearWeek:
+                    type: number
+                    example: 1
+                  Seed_Varity:
+                    type: string
+                    example: "Seed 1"
+                  Seed_RDCSD:
+                    type: string
+                    example: "Seed 1"
+                  Seed_Stock2Sale:
+                    type: string
+                    example: "Seed 1"
+                  Seed_Season:
+                    type: string
+                    example: "Seed 1"
+                  Seed_Crop_Year:
+                    type: string
+                    example: "Seed 1"
+                  User_id:
+                    type: string
+                    example: "Seed 1"
+        404:
+          description: Not Found
+  /api/data:
+    get:
+      tags:
+        - data
+      summary: get all data Seed.
+      description: api first is get all data Seed.
+      operationId: getData
+      security:
+        - BearerAuth: []
+      responses:
+        '201':    # status code
+          description: List of Seed
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 1
+                  Seed_RepDate:
+                    type: string
+                    example: "Seed 1"
+                  Seed_Year:
+                    type: number
+                    example: 1
+                  Seeds_YearWeek:
+                    type: number
+                    example: 1
+                  Seed_Varity:
+                    type: string
+                    example: "Seed 1"
+                  Seed_RDCSD:
+                    type: string
+                    example: "Seed 1"
+                  Seed_Stock2Sale:
+                    type: string
+                    example: "Seed 1"
+                  Seed_Season:
+                    type: string
+                    example: "Seed 1"
+                  Seed_Crop_Year:
+                    type: string
+                    example: "Seed 1"
+                  User_id:
+                    type: string
+                    example: "Seed 1"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not Found
+    post:
+      tags:
+        - data
+      summary: Create a new Seed.
+      description: api first is create a new Seed.
+      operationId: createSeed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Seed_RepDate:
+                  type: string
+                  example: "Seed 1"
+                Seed_Year:
+                  type: number
+                  example: 1
+                Seeds_YearWeek:
+                  type: number
+                  example: 1
+                Seed_Varity:
+                  type: string
+                  example: "Seed 1"
+                Seed_RDCSD:
+                  type: string
+                  example: "Seed 1"
+                Seed_Stock2Sale:
+                  type: string
+                  example: "Seed 1"
+                Seed_Season:
+                  type: string
+                  example: "Seed 1"
+                Seed_Crop_Year:
+                  type: string
+                  example: "Seed 1"
+                User_id:
+                  type: string
+                  example: "Seed 1"
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 1
+                  Seed_RepDate:
+                    type: string
+                    example: "Seed 1"
+                  Seed_Year:
+                    type: number
+                    example: 1
+                  Seeds_YearWeek:
+                    type: number
+                    example: 1
+                  Seed_Varity:
+                    type: string
+                    example: "Seed 1"
+                  Seed_RDCSD:
+                    type: string
+                    example: "Seed 1"
+                  Seed_Stock2Sale:
+                    type: string
+                    example: "Seed 1"
+                  Seed_Season:
+                    type: string
+                    example: "Seed 1"
+                  Seed_Crop_Year:
+                    type: string
+                    example: "Seed 1"
+                  User_id:
+                    type: string
+                    example: "Seed 1"
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Bad Request
+  /api/data/{id}:
+    put:
+      tags:
+        - data
+      summary: Update a Seed.
+      description: api first is update a Seed.
+      operationId: updateSeed
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string 
+          description: edit id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Seed_RepDate:
+                  type: string
+                  example: "Seed 1"
+                Seed_Year:
+                  type: number
+                  example: 1
+                Seeds_YearWeek:
+                  type: number
+                  example: 1
+                Seed_Varity:
+                  type: string
+                  example: "Seed 1"
+                Seed_RDCSD:
+                  type: string
+                  example: "Seed 1"
+                Seed_Stock2Sale:
+                  type: string
+                  example: "Seed 1"
+                Seed_Season:
+                  type: string
+                  example: "Seed 1"
+                Seed_Crop_Year:
+                  type: string
+                  example: "Seed 1"
+                User_id:
+                  type: string
+                  example: "Seed 1"
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 1
+                  Seed_RepDate:
+                    type: string
+                    example: "Seed Text RepDate"
+                  Seed_Year:
+                    type: number
+                    example: 113
+                  Seeds_YearWeek:
+                    type: number
+                    example: 231
+                  Seed_Varity:
+                    type: string
+                    example: "Seed Text Varity"
+                  Seed_RDCSD:
+                    type: string
+                    example: "Seed Text RDCSD"
+                  Seed_Stock2Sale:
+                    type: string
+                    example: "Seed Text Stock2Sale"
+                  Seed_Season:
+                    type: string
+                    example: "Seed Text Season"
+                  Seed_Crop_Year:
+                    type: string
+                    example: "Seed Text Crop Year"
+                  User_id:
+                    type: string
+                    example: "user_id7is0id"
+        '402':
+          description: Data not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Data not found
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Bad Request
+    delete:
+      tags:
+        - data
+      summary: Delete a Seed.
+      description: api first is delete a Seed.
+      operationId: deleteSeed
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: add id
+      responses:
+        '200':
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Deleted Data To Success
+        '402':
+          description: Data not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Data not found
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Bad Request
