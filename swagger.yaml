@@ -137,7 +137,7 @@ paths:
          description: Server Error
   /api/mydata:
     get:
-      tage:
+      tags:
         - mydata
       summary: get all my data.
       description: api for get all my post data.
