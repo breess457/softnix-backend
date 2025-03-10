@@ -12,7 +12,12 @@ router.get('/data', async(req, res) => {
         page = parseInt(page)
         limit = parseInt(limit)
         const skip = (page - 1) * limit
-        const datas = await Data.find().sort({newDate: -1}).collation({locale: "en", strength: 2}).skip(skip).limit(limit);
+        const datas = await Data.find()
+            .sort({newDate: -1})
+            .collation({locale: "en", strength: 2})
+            .skip(skip)
+            .limit(limit)
+            .populate("User_id","fullname");
         const total = await Data.countDocuments()
         res.json({
             status:201,
@@ -27,7 +32,6 @@ router.get('/data', async(req, res) => {
 })
 
 router.get('/mydata', veryfyToken, async (req, res)=>{
-    console.log(req.user.userId)
     try{
         let {page = 1, limit = 20} = req.query
         page = parseInt(page)
@@ -77,8 +81,7 @@ router.post('/data', async(req, res) => {
 });
 
 router.put('/data/:id',async(req, res) => {
-    console.log("id:",req.params.id)
-    console.log("token:",req.user)
+
     try{
         const {Seed_RepDate,Seed_Year,Seeds_YearWeek,Seed_Varity,Seed_RDCSD,Seed_Stock2Sale,Seed_Season,Seed_Crop_Year,User_id} = req.body;
         if(!(Seed_RepDate && Seed_Year && Seeds_YearWeek && Seed_Varity && Seed_RDCSD && Seed_Stock2Sale && Seed_Season && Seed_Crop_Year && User_id)){
@@ -110,7 +113,6 @@ router.put('/data/:id',async(req, res) => {
 });
 
 router.delete('/data/:id',async(req, res) => {
-    console.log("s:",req.params.id)
     try{
         const data = await Data.findByIdAndDelete(req.params.id);
         if(data){

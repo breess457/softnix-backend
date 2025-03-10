@@ -33,7 +33,8 @@ const dataSchema = new moongoose.Schema({
         required: true
     },
     User_id:{
-        type: String,
+        type: moongoose.Schema.Types.ObjectId,
+        ref:"User",
         required: true
     },
     newDate: {

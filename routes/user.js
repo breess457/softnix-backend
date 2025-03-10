@@ -81,7 +81,6 @@ router.post('/register', async (req, res, next) => {
 router.get('/profile', veryfyToken,async (req, res) => {
     try{
         const users = await User.findById(req.user.userId).select('-password');
-        console.log(users)
         return res.json({
             status: 201,
             message: "get profile success",
